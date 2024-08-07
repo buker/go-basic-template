@@ -1,4 +1,5 @@
-FROM golang:1.20-alpine AS builder
+ARG GO_VERSION=1.22
+FROM golang:${GO_VERSION}-alpine AS builder
 RUN apk update && \
     apk add curl \
             git \
@@ -6,10 +7,9 @@ RUN apk update && \
             make \
             ca-certificates && \
     rm -rf /var/cache/apk/*
-
 WORKDIR /build
-
 COPY . .
+RUN ls
 RUN go mod download
 RUN go mod verify
 RUN make build
@@ -22,5 +22,5 @@ FROM alpine:latest
 WORKDIR /app
 ENV PATH=/app/:$PATH
 
-COPY --from=builder /build/server /app/server
-ENTRYPOINT ["server"]
+COPY --from=builder /build/main /app/main
+ENTRYPOINT ["main"]
