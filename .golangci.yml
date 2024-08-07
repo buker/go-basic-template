@@ -1,0 +1,34 @@
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+linters:
+  enable:
+    - errcheck
+    - errorlint
+    - gocritic
+    - gofumpt
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - staticcheck
+    - testifylint
+    - unused
+    - whitespace
+linters-settings:
+  #gocritic:
+    #disabled-checks:
+      # - appendAssign
+      # - assignOp  # Keep it disabled for readability
+      # - badCond
+      # - commentFormatting
+      # - exitAfterDefer
+      # - ifElseChain
+      # - mapKey
+      # - singleCaseSwitch
+      # - typeSwitchVar
+  testifylint:
+    enable-all: true
+run:
+  timeout: 50m
