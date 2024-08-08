@@ -13,7 +13,7 @@ RUN ls
 RUN go mod download
 RUN go mod verify
 RUN make build
-
+RUN mkdir -p /app/bin
 FROM alpine:latest AS certificates
 
 RUN apk --no-cache add ca-certificates
@@ -21,6 +21,5 @@ RUN apk --no-cache add ca-certificates
 FROM alpine:latest
 WORKDIR /app
 ENV PATH=/app/:$PATH
-
-COPY --from=builder /build/main /app/main
+COPY --from=builder /build/bin/main /app/main
 ENTRYPOINT ["main"]

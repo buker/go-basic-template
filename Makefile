@@ -15,12 +15,24 @@ help: ## help information about make commands
 version: ## display the version of the API server
 	@echo $(VERSION)
 
+.PHONY: all
+all: ## execute all the targets
+	@echo "Executing all targets"
+	make lint
+	make fmt
+	make test
+	make build
+	make build-docker
+	make build-packto
 
+replace-module:
+	@echo "Replace module"
+	find . -type f -exec sed -i '' 's|$(MODULE)|$(NEW_MODULE)|g' {} +
 # ==============================================================================
 # Docker
 .PHONY: build-docker
 build-docker: ## build the API server as a docker image
-	docker build -f Dockerfile --build-arg -t $(MODULE):$(VERSION) .
+	docker build -f Dockerfile -t $(MODULE):$(VERSION) --build-arg GO_VERSION=1.22  .
 
 .PHONY: push-docker
 push-docker: ## build the API server as a docker image
